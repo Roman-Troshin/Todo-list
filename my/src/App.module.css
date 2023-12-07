@@ -11,3 +11,8 @@
 	text-align:center;
 	color: white;
 }
+
+.settings {
+	display: flex;
+	justify-content: space-between;
+}

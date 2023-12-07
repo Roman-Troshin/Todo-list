@@ -1,14 +1,17 @@
-import styles from './to-do-list-output.module.css';
+import { StandaloneToDo } from './stand-alone-to-do/standaloneToDo';
+import { getRandomKeyForTask } from '../help-functions/get-random-key-for-task';
 
-export const ToDodListOutput = ({toDosList}) => {
-
+export const ToDosListOutput = ({ changingMarket, setChangingMarker, toDosList }) => {
 	return (
-		<ol>
-		{
-				toDosList.map((toDo, index) => (
-					<li key={index} className={styles.todoItem}>{toDo.title}</li>
-				))
-		}
-		</ol>
-	)
+		<div>
+			{toDosList.map((toDo) => (
+				<StandaloneToDo
+					key={getRandomKeyForTask()}
+					rewritingMarker={changingMarket}
+					setRewritingMarker={setChangingMarker}
+					task={toDo}
+				/>
+			))}
+		</div>
+	);
 };
