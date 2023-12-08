@@ -5,6 +5,8 @@ import { AddToDos } from './user-actions-with-todos/add-to-dos/add-to-dos';
 import { ToDosSearch } from './user-actions-with-todos/to-dos-search/to-dos-search';
 import { ToDosSort } from './user-actions-with-todos/to-dos-sort/to-dos-sort';
 import { processUserRequestForSerchAndSort } from './help-functions/process-user-request-for-serch-and-sort';
+import { db } from './firebase';
+import { ref, onValue} from 'firebase/database';
 
 export const App = () => {
 	const [toDos, setToDos] = useState([]);
@@ -13,18 +15,15 @@ export const App = () => {
 	const [isSortChecked, setIsSortChecked] = useState(false);
 
 	useEffect(() => {
-		fetch(
-			`http://localhost:3004/todos${processUserRequestForSerchAndSort(
-				fieldSearchValue,
-				isSortChecked,
-			)}`,
-		)
-			.then((loadedData) => loadedData.json())
-			.then((loadedToDos) => {
-				console.log(loadedToDos);
-				setToDos(loadedToDos);
-			});
-	}, [changeToDosMarker, fieldSearchValue, isSortChecked]);
+
+		const toDoListDbRef = ref(db, 'todos');
+
+		return onValue(toDoListDbRef, (snapshot) => {
+			const loadedToDos = snapshot.val();
+			setToDos(loadedToDos);
+		});
+
+	}, []);
 
 	return (
 		<div className={styles.container}>
