@@ -1,17 +1,17 @@
 import { StandaloneToDo } from './stand-alone-to-do/standaloneToDo';
 import { getRandomKeyForTask } from '../help-functions/get-random-key-for-task';
 
-export const ToDosListOutput = ({ changingMarket, setChangingMarker, toDosList }) => {
+export const ToDosListOutput = ({toDosList}) => {
+
 	return (
 		<div>
-			{toDosList.map((toDo) => (
-				<StandaloneToDo
-					key={getRandomKeyForTask()}
-					rewritingMarker={changingMarket}
-					setRewritingMarker={setChangingMarker}
-					task={toDo}
-				/>
-			))}
+		{toDosList.map((ToDo) => (
+			<StandaloneToDo
+				key={getRandomKeyForTask()}
+				toDoId={ToDo[0]}
+				task={ToDo[1]}
+			/>
+		))}
 		</div>
 	);
 };

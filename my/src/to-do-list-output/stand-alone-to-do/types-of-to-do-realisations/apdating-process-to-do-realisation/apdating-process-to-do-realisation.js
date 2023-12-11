@@ -1,28 +1,25 @@
 import styles from './apdating-process-to-do-realisation.module.css';
 import { useRef } from 'react';
+import { ref, set } from 'firebase/database';
+import { db } from '../../../../firebase';
 
 export const ApdatingProcessToDoRealisation = ({
 	actualToDoValue,
 	setActualToDoValue,
 	setIsToDoInModificationProcess,
-	reRecordMarker,
-	setReRecordMarker,
 	toDoId,
 }) => {
 	const initialFieldValue = useRef(actualToDoValue);
 
 	const onRequestUpdateToDo = (value) => {
-		fetch(`http://localhost:3004/todos/${toDoId}`, {
-			method: 'PUT',
-			headers: { 'Content-Type': 'application/json;charset=utf-8' },
-			body: JSON.stringify({
-				value,
-			}),
+
+		const updatingToDoDbRef = ref(db, `todos/${toDoId}`)
+
+		set(updatingToDoDbRef, {
+			'text': value
 		})
-			.then((rawResponse) => rawResponse.json())
 			.then((response) => {
 				console.log('Задача обновлена ', response);
-				setReRecordMarker(!reRecordMarker);
 			});
 	};
 

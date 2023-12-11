@@ -2,18 +2,15 @@ import { useState } from 'react';
 import { DefaultToDoRealisation } from './types-of-to-do-realisations/default-to-do-realisation/default-to-do-realisation';
 import { ApdatingProcessToDoRealisation } from './types-of-to-do-realisations/apdating-process-to-do-realisation/apdating-process-to-do-realisation';
 
-export const StandaloneToDo = ({ rewritingMarker, setRewritingMarker, task }) => {
-	const toDoId = task.id;
+export const StandaloneToDo = ({ toDoId, task }) => {
 
-	const [currentToDoValue, setCurrentToDoValue] = useState(task.value);
+	const [currentToDoValue, setCurrentToDoValue] = useState(task);
 	const [isToDoInUpdatingProcess, setIsToDoInUpdatingProcess] = useState(false);
 
 	return isToDoInUpdatingProcess === false ? (
 		<DefaultToDoRealisation
 			actualToDoValue={currentToDoValue}
 			setIsToDoInModificationProcess={setIsToDoInUpdatingProcess}
-			reRecordMarker={rewritingMarker}
-			setReRecordMarker={setRewritingMarker}
 			toDoId={toDoId}
 		/>
 	) : (
@@ -21,8 +18,6 @@ export const StandaloneToDo = ({ rewritingMarker, setRewritingMarker, task }) =>
 			actualToDoValue={currentToDoValue}
 			setActualToDoValue={setCurrentToDoValue}
 			setIsToDoInModificationProcess={setIsToDoInUpdatingProcess}
-			reRecordMarker={rewritingMarker}
-			setReRecordMarker={setRewritingMarker}
 			toDoId={toDoId}
 		/>
 	);

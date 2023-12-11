@@ -1,20 +1,20 @@
 import styles from './default-to-do-realisation.module.css';
+import { ref, remove } from 'firebase/database';
+import { db } from '../../../../firebase';
 
 export const DefaultToDoRealisation = ({
 	actualToDoValue,
 	setIsToDoInModificationProcess,
-	reRecordMarker,
-	setReRecordMarker,
+
 	toDoId,
 }) => {
 	const onRequestDeleteToDo = () => {
-		fetch(`http://localhost:3004/todos/${toDoId}`, {
-			method: 'DELETE',
-		})
-			.then((rawResponse) => rawResponse.json())
+
+		const toDoToDelete = ref(db, `todos/${toDoId}`);
+
+		remove(toDoToDelete)
 			.then((response) => {
 				console.log('Задача удалена ', response);
-				setReRecordMarker(!reRecordMarker);
 			});
 	};
 

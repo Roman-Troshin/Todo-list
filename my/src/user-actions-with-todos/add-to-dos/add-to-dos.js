@@ -1,42 +1,38 @@
-import styles from './add-to-dos.module.css'
+import styles from './add-to-dos.module.css';
 import { useState } from 'react';
+import { db } from '../../firebase';
+import { ref, push } from 'firebase/database';
 
-export const AddToDos = ({addMarker, setAddMarker}) => {
+export const AddToDos = () => {
+	const [fieldValue, setFieldValue] = useState('');
 
-const [fieldValue, setFieldValue] = useState('');
+	const onRequestAddToDos = (event, value) => {
+		event.preventDefault();
 
-const onRequestAddToDos = (event, value) => {
-	event.preventDefault();
-	fetch('http://localhost:3004/todos', {
-		method: 'POST',
-		headers:  { 'Content-Type': 'application/json;charset=utf-8' },
-		body: JSON.stringify({
-			value,
-		}),
-	})
-		.then((rawResponse) => rawResponse.json())
-		.then((response) => {
+		const toDosDbRef = ref(db, 'todos');
+
+		push(toDosDbRef, {
+			'text': value,
+		}).then((response) => {
 			console.log('комментарий добавлен: ', response);
-			setAddMarker(!addMarker);
-			setFieldValue('')
-
-		})
-
-}
+			setFieldValue('');
+		});
+	};
 
 	return (
 		<div>
-			<form className={styles.form} onSubmit={(event) => onRequestAddToDos(event, fieldValue)}>
+			<form
+				className={styles.form}
+				onSubmit={(event) => onRequestAddToDos(event, fieldValue)}
+			>
 				<input
-				name="toDosField"
-				type="text"
-				value={fieldValue}
-				onChange={({target}) => setFieldValue(target.value)}
+					name="toDosField"
+					type="text"
+					value={fieldValue}
+					onChange={({ target }) => setFieldValue(target.value)}
 				></input>
-				<button type="submit">
-					Добавить задачу
-				</button>
+				<button type="submit">Добавить задачу</button>
 			</form>
 		</div>
-	)
+	);
 };

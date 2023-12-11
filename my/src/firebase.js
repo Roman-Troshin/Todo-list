@@ -8,9 +8,8 @@ const firebaseConfig = {
 	storageBucket: 'todo-list-firebase-3a8e1.appspot.com',
 	messagingSenderId: '1005534626905',
 	appId: '1:1005534626905:web:312ba7fcb8f4b1bba21d48',
-	databaseURL: 'https://todo-list-firebase-3a8e1-default-rtdb.europe-west1.firebasedatabase.app/',
+	databaseURL: 'https://todo-list-firebase-3a8e1-default-rtdb.europe-west1.firebasedatabase.app',
 };
-
 
 const app = initializeApp(firebaseConfig);
 
